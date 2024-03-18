@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>Potree Viewer</title>
+    <style>
+      .potree_toolbar {
+        position: absolute;
+        z-index: 10000;
+        left: 10px;
+        top: 0px;
+        background: black;
+        color: white;
+        padding: 0.3em 0.8em;
+        font-family: "system-ui";
+        border-radius: 0em 0em 0.3em 0.3em;
+        display: flex;
+      }
+
+      .potree_toolbar_label {
+        text-align: center;
+        font-size: smaller;
+        opacity: 0.9;
+      }
+
+      .potree_toolbar_separator {
+        background: white;
+        padding: 0px;
+        margin: 5px 10px;
+        width: 1px;
+      }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="./build/potree/potree.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./libs/jquery-ui/jquery-ui.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="./libs/openlayers3/ol.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./libs/spectrum/spectrum.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./libs/jstree/themes/mixed/style.css"
+    />
+  </head>
+
+  <body>
+    <script src="./libs/jquery/jquery-3.1.1.min.js"></script>
+    <script src="./libs/spectrum/spectrum.js"></script>
+    <script src="./libs/jquery-ui/jquery-ui.min.js"></script>
+    <script src="./libs/three.js/build/three.min.js"></script>
+    <script src="./libs/three.js/extra/lines.js"></script>
+    <script src="./libs/other/BinaryHeap.js"></script>
+    <script src="./libs/tween/tween.min.js"></script>
+    <script src="./libs/d3/d3.js"></script>
+    <script src="./libs/proj4/proj4.js"></script>
+    <script src="./libs/openlayers3/ol.js"></script>
+    <script src="./libs/i18next/i18next.js"></script>
+    <script src="./libs/jstree/jstree.js"></script>
+    <!-- <script src="./build/potree/potree.js"></script> -->
+    <script src="potree.js"></script>
+    <script src="./libs/plasio/js/laslaz.js"></script>
+
+    <!-- INCLUDE ADDITIONAL DEPENDENCIES HERE -->
+
+    <div
+      class="potree_container"
+      style="
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 0px;
+        display: flex;
+      "
+    >
+      <div style="width: 50%" id="potree_render_area">
+        <div class="potree_toolbar" id="potree_toolbar1"></div>
+      </div>
+    </div>
+    <div
+      class="potree_container"
+      style="
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 50%;
+        top: 0px;
+        display: flex;
+      "
+    >
+      <div style="width: 50%" id="potree_render_area2">
+        <div class="potree_toolbar" id="potree_toolbar2"></div>
+      </div>
+    </div>
+
+    <script>
+      function getParamValue(paramName) {
+        var url = window.location.search.substring(1); //get rid of "?" in querystring
+        var qArray = url.split("&"); //get key-value pairs
+        for (var i = 0; i < qArray.length; i++) {
+          var pArr = qArray[i].split("="); //split key and value
+          if (pArr[0] == paramName) return pArr[1]; //return value
+        }
+      }
+
+      var param1 = getParamValue("path");
+      var inputPC = "http://47.97.51.98:3000" + param1 + "/metadata.json";
+      var param12 = getParamValue("path2");
+      var semanticPC = "http://47.97.51.98:3000" + param12 + "/metadata.json";
+
+      window.viewer = new Potree.Viewer(
+        document.getElementById("potree_render_area")
+      );
+
+      viewer.setEDLEnabled(true);
+      viewer.setFOV(60);
+      viewer.setPointBudget(4 * 1000 * 1000);
+      document.title = "";
+      viewer.setBackground("gradient"); // ["skybox", "gradient", "black", "white"];
+      // viewer.setDescription(`Çatalhöyük North Area, 2012 <ul><a href="https//doi.or/10.607/J01N7ZH8
+      // // " target=_blank">see in UCSD Library Digital Collections</a></ul>`);
+      viewer.loadSettingsFromURL();
+
+      viewer.loadGUI(() => {
+        viewer.setLanguage("en");
+        $("#menu_appearance").next().show();
+        $("#menu_tools").next().show();
+        $("#menu_scene").next().show();
+        // viewer.toggleSidebar();
+      });
+
+      Potree.loadPointCloud(inputPC, "Input Point Cloud", (e) => {
+        let pointcloud = e.pointcloud;
+        let material = pointcloud.material;
+
+        material.activeAttributeName = "rgba";
+        //pointcloud.material.intensityRange = [0,65535];
+        material.minSize = 2;
+        material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
+        material.shape = Potree.PointShape.CIRCLE;
+
+        viewer.scene.addPointCloud(pointcloud);
+        viewer.fitToScreen();
+      });
+
+      window.viewer2 = new Potree.Viewer(
+        document.getElementById("potree_render_area2")
+      );
+
+      viewer2.toggleSidebar = () => {
+        // console.log("test");
+        let renderArea = $("#potree_render_area2");
+        let isVisible = renderArea.css("left") !== "50%";
+
+        if (isVisible) {
+          renderArea.css("left", "50%");
+        } else {
+          renderArea.css("left", "75%");
+        }
+
+        // viewer.toggleSidebar();
+      };
+
+      viewer2.setEDLEnabled(true);
+      viewer2.setFOV(60);
+      viewer2.setPointBudget(4 * 1000 * 1000);
+      viewer2.setBackground("gradient"); // ["skybox", "gradient", "black", "white"];
+      //       viewer2.setDescription(`Çatalhöyük North Area, 2012 <ul><a href="https//doi.or/10.607/J01N7ZH8
+      // " target=_blank">see in UCSD Library Digital Collections</a></ul>`);
+      viewer2.loadSettingsFromURL();
+
+      viewer2.loadGUI(() => {
+        viewer2.setLanguage("en");
+      });
+
+      Potree.loadPointCloud(semanticPC, "Semantic Point Cloud", (e) => {
+        let pointcloud = e.pointcloud;
+        let material = pointcloud.material;
+
+        material.activeAttributeName = "rgba";
+        //pointcloud.material.intensityRange = [0,65535];
+        material.minSize = 2;
+        material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
+        material.shape = Potree.PointShape.CIRCLE;
+
+        viewer2.scene.addPointCloud(pointcloud);
+        viewer2.fitToScreen();
+      });
+
+      // Listen for camera changes
+      viewer.addEventListener("camera_changed", (event) => {
+        // When camera changes, override camera of other viewer
+        viewer2.scene.overrideCamera = event.camera;
+      });
+
+      // Both toolbars
+      const toolbar = $(".potree_toolbar");
+      toolbar.html(`
+			<span>
+				<div class="potree_toolbar_label">
+					Measure
+				</div>
+				<div>
+					<img name="action_measure_point" src="${Potree.resourcePath}/icons/point.svg" class="annotation-action-icon" style="width: 2em; height: auto;"/>
+					<img name="action_measure_distance" src="${Potree.resourcePath}/icons/distance.svg" class="annotation-action-icon" style="width: 2em; height: auto;"/>
+					<img name="action_measure_height" src="${Potree.resourcePath}/icons/height.svg" class="annotation-action-icon" style="width: 2em; height: auto;"/>
+					<img name="action_reset_tools" src="${Potree.resourcePath}/icons/reset_tools.svg" class="annotation-action-icon" style="width: 2em; height: auto;"/>
+				</div>
+			</span>
+			<span class="potree_toolbar_separator" />
+			<span>
+				<div class="potree_toolbar_label" style="width: 6em">
+					Material
+				</div>
+				<div>
+					<select class="optMaterial" name="optMaterial"></select>
+				</div>
+			</span>
+		`);
+
+      // Material controls
+      let options = ["rgba", "elevation", "intensity", "color"];
+
+      let attributeSelection = $(".optMaterial");
+      for (let option of options) {
+        let elOption = $(`<option>${option}</option>`);
+        attributeSelection.append(elOption);
+      }
+
+      // Left viewer toolbar
+      const toolbar1 = $("#potree_toolbar1");
+      toolbar1.find("img[name=action_measure_point]").click(() => {
+        const measurement = viewer.measuringTool.startInsertion({
+          showDistances: false,
+          showAngles: false,
+          showCoordinates: true,
+          showArea: false,
+          closed: true,
+          maxMarkers: 1,
+          name: "Point",
+        });
+      });
+      toolbar1.find("img[name=action_measure_distance]").click(() => {
+        const measurement = viewer.measuringTool.startInsertion({
+          showDistances: true,
+          showArea: false,
+          closed: false,
+          name: "Distance",
+        });
+      });
+
+      toolbar1.find("img[name=action_measure_height]").click(() => {
+        const measurement = viewer.measuringTool.startInsertion({
+          showDistances: false,
+          showHeight: true,
+          showArea: false,
+          closed: false,
+          maxMarkers: 2,
+          name: "Height",
+        });
+      });
+
+      toolbar1.find("img[name=action_reset_tools]").click(() => {
+        const measurement = this.viewer.scene.removeAllMeasurements();
+      });
+
+      // Right viewer toolbar
+      const toolbar2 = $("#potree_toolbar2");
+      toolbar2.find("img[name=action_measure_point]").click(() => {
+        const measurement = viewer2.measuringTool.startInsertion({
+          showDistances: false,
+          showAngles: false,
+          showCoordinates: true,
+          showArea: false,
+          closed: true,
+          maxMarkers: 1,
+          name: "Point",
+        });
+      });
+      toolbar2.find("img[name=action_measure_distance]").click(() => {
+        const measurement = viewer2.measuringTool.startInsertion({
+          showDistances: true,
+          showArea: false,
+          closed: false,
+          name: "Distance",
+        });
+      });
+
+      toolbar2.find("img[name=action_measure_height]").click(() => {
+        const measurement = viewer2.measuringTool.startInsertion({
+          showDistances: false,
+          showHeight: true,
+          showArea: false,
+          closed: false,
+          maxMarkers: 2,
+          name: "Height",
+        });
+      });
+
+      toolbar2.find("img[name=action_reset_tools]").click(() => {
+        const measurement = this.viewer2.scene.removeAllMeasurements();
+      });
+
+      const updateMaterialSelection = (event, ui, selection, view) => {
+        let selectedValue = selection.selectmenu().val();
+
+        for (const pointcloud of view.scene.pointclouds) {
+          pointcloud.material.activeAttributeName = selectedValue;
+        }
+      };
+
+      const material1 = toolbar1.find(".optMaterial");
+      console.log(material1);
+      material1.selectmenu({
+        change: (event, ui) => {
+          updateMaterialSelection(event, ui, material1, viewer);
+        },
+      });
+
+      const material2 = toolbar2.find(".optMaterial");
+      material2.selectmenu({
+        change: (event, ui) => {
+          updateMaterialSelection(event, ui, material2, viewer2);
+        },
+      });
+    </script>
+    <div
+      style="position: absolute; z-index: 10000; right: 10px; top: 10px"
+      onclick="window.location.href = '', '_blank'"
+    ></div>
+  </body>
+</html>

@@ -1,0 +1,404 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
+
+body {
+  color: #5f5f5f;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+}
+
+table {
+  font-size: 0.8rem;
+}
+
+.table .td {
+  border: 1px solid black;
+}
+
+/* set padding default */
+
+.container-fluid {
+  padding: 2rem 3rem;
+}
+
+/* navbar */
+
+.navbar {
+  margin-bottom: 30px;
+}
+
+#navbar-span {
+  color: #709775;
+}
+
+/* configuration */
+.proj-config {
+  background-color: #a1cca5;
+  height: 170px;
+  width: 100%;
+  margin: 10px 0 5px 0;
+}
+
+/* drag and drop */
+
+.drag-and-drop .form-control-file {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 6em;
+  outline: none;
+  visibility: hidden;
+  cursor: pointer;
+  color: #493271;
+  margin-top: 8px;
+}
+.drag-and-drop .form-control-file:before {
+  content: attr(data-title);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  min-height: 6rem;
+  line-height: 2em;
+  padding-top: 1.5em;
+  opacity: 1;
+  visibility: visible;
+  text-align: center;
+  border: 0.2rem dashed;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: visible;
+}
+.drag-and-drop .form-control-file:hover:before {
+  border-style: solid;
+  box-shadow: inset 0px 0px 0px 0.2rem;
+}
+
+div.checkbox.switcher label,
+div.radio.switcher label {
+  padding: 0;
+}
+div.checkbox.switcher label *,
+div.radio.switcher label * {
+  vertical-align: middle;
+}
+div.checkbox.switcher label input,
+div.radio.switcher label input {
+  display: none;
+}
+div.checkbox.switcher label input + span,
+div.radio.switcher label input + span {
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  width: 56px;
+  height: 28px;
+  background: #dadada;
+  border: 1px solid rgb(201, 201, 201);
+  border-radius: 50px;
+  transition: all 0.3s ease-in-out;
+}
+div.checkbox.switcher label input + span small,
+div.radio.switcher label input + span small {
+  position: absolute;
+  display: block;
+  width: 50%;
+  height: 100%;
+  background: #fff;
+  border-radius: 50%;
+  transition: all 0.3s ease-in-out;
+  left: 0;
+}
+div.checkbox.switcher label input:checked + span,
+div.radio.switcher label input:checked + span {
+  background: #0b4112;
+  border-color: #0b4112;
+}
+div.checkbox.switcher label input:checked + span small,
+div.radio.switcher label input:checked + span small {
+  left: 50%;
+}
+
+.btn:disabled {
+  background-color: #686868;
+  border-color: #686868;
+}
+
+table.dataTable thead th,
+table.dataTable thead td {
+  padding: 8px 10px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  margin-top: 10px;
+  padding: 0;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+  font-size: 0.8rem;
+}
+
+/* start */
+
+/* start */
+h2,
+h5,
+.h2,
+.h5 {
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+  color: #32325d;
+}
+
+h5,
+.h5 {
+  font-size: 0.8125rem;
+}
+
+/* start */
+
+*,
+*:after,
+*:before {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.box {
+	padding: 0;
+	display: flex;
+  justify-content: space-between;
+
+}
+
+/* Box colors */
+.bg-2 {
+	/* color: #ECEFF1; */
+}
+
+
+/* Common button styles */
+.button {
+	float: left;
+	max-width: 250px;
+	display: block;
+	margin: 0;
+	color: inherit;
+	position: relative;
+	z-index: 1;
+  background: #7986cb;
+}
+.button:focus {
+	outline: none;
+}
+.button > span {
+	vertical-align: middle;
+}
+
+.button-nm {
+	max-width: 250px;
+	margin: 0;
+	position: relative;
+	z-index: 1;
+  background: #7986cb;
+}
+.button-nm:focus {
+	outline: none;
+}
+.button-nm > span {
+	vertical-align: middle;
+}
+ 
+.bg-2 .button {
+	color: #ECEFF1;
+}
+
+.bg-2 .button-nm {
+	color: #ECEFF1;
+}
+
+/* Sizes */
+.button--size-s {
+	font-size: 0.78rem;
+}
+
+/* Typography and Roundedness */
+.button--text-upper {
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+.button--text-medium {
+	font-weight: 500;
+}
+.button--round-s {
+	border-radius: 5px;
+}
+.button--round-m {
+	border-radius: 15px;
+}
+.button--round-l {
+	border-radius: 40px;
+}
+
+/* Borders */
+.button--border-thin {
+	border: 1px solid;
+}
+.button--border-medium {
+	border: 2px solid;
+}
+.button--border-thick {
+	border: 3px solid;
+}
+
+/* Individual button styles */
+
+/* Winona */
+.button--winona {
+	overflow: hidden;
+	padding: 0;
+	-webkit-transition: border-color 0.3s, background-color 0.3s;
+	transition: border-color 0.3s, background-color 0.3s;
+	-webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+	transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+.button--winona::after {
+	content: attr(data-text);
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	color: #3f51b5;
+	-webkit-transform: translate3d(0, 25%, 0);
+	transform: translate3d(0, 25%, 0);
+}
+.button--winona > span {
+	display: block;
+}
+.button--winona.button--inverted {
+	color: #7986cb;
+}
+.button--winona.button--inverted:after {
+	color: #fff;
+}
+.button--winona::after,
+.button--winona > span {
+	padding: 0.7em 0.8rem;
+	-webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+	transition: transform 0.3s, opacity 0.3s;
+	-webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+	transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+.button--winona:hover {
+	border-color: #3f51b5;
+	background-color: rgba(63, 81, 181, 0.1);
+}
+.button--winona.button--inverted:hover {
+	border-color: #21333C;
+	background-color: #21333C;
+}
+.button--winona:hover::after {
+	opacity: 1;
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
+}
+.button--winona:hover > span {
+	opacity: 0;
+	-webkit-transform: translate3d(0, -25%, 0);
+	transform: translate3d(0, -25%, 0);
+}
+
+.btn-primary{
+  background-color: #747CE7;
+  border-color:#747CE7;
+}
+
+.btn-danger{
+  background-color: #E82135;
+  border-color: #E82135;
+}
+
+.page-item.active .page-link {
+  background-color: #747CE7;
+  border-color:#747CE7;
+}
+
+
+.load-wrapp {
+  display: flex;
+  height: 80vh;
+  align-items: center;
+  justify-content: center;
+  /* text-align: center; */
+}
+
+.line {
+  display: inline-block;
+  width: 20px;
+  height: 13px;
+  border-radius: 15px;
+  background-color: #4da76f;
+}
+
+.load-2 .line:nth-last-child(1) {
+  animation: loadingB 1.5s 1s infinite;
+}
+.load-2 .line:nth-last-child(2) {
+  animation: loadingB 1.5s 0.5s infinite;
+}
+.load-2 .line:nth-last-child(3) {
+  animation: loadingB 1.5s 0s infinite;
+}
+
+@keyframes loadingB {
+  0% {
+    width: 20px;
+  }
+  50% {
+    width: 40px;
+  }
+  100% {
+    width: 20px;
+  }
+}
+
+input[type="range"] {
+  margin: auto;
+  -webkit-appearance: none;
+  position: relative;
+  overflow: hidden;
+  height: 14px;
+  width: 324px;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+::-webkit-slider-runnable-track {
+  background: #ddd;
+}
+
+::-moz-range-track {
+  background: #ddd;
+  height: 100%;
+}
+
+::-moz-range-thumb {
+  -moz-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgb(117, 113, 167);
+  box-shadow: -100vw 100px 10px 100vw rgba(26, 6, 73, 0.5);
+  border: none;
+}
+
+::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: rgb(91, 86, 151);
+  box-shadow: -100vw 100px 10px 100vw rgba(26, 6, 73, 0.5);
+  border: none;
+}
